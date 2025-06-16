@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cryo Bullz</title>
+    <title>Cryo Bullz (Local Storage)</title>
     <style>
+        /* General body styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f0f2f5;
@@ -12,16 +13,19 @@
             padding: 20px;
         }
 
+        /* Centered main heading */
         h2 {
             color: #2c3e50;
             text-align: center;
         }
 
+        /* Container for overall layout */
         .container {
             max-width: 1200px;
             margin: auto;
         }
 
+        /* Card-like sections for better organization */
         .card {
             background: #fff;
             border-radius: 8px;
@@ -30,6 +34,7 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        /* Form group layout for input fields and buttons */
         .form-group {
             display: flex;
             flex-wrap: wrap;
@@ -38,19 +43,21 @@
             align-items: center;
         }
 
+        /* Styling for text inputs, file inputs, password inputs, and selects */
         input[type="text"],
         input[type="file"],
-        input[type="password"], /* Added for password input */
+        input[type="password"],
         select {
-            flex: 1;
-            min-width: 150px;
+            flex: 1; /* Allows items to grow and shrink */
+            min-width: 150px; /* Minimum width for inputs */
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
 
+        /* General button styling */
         button {
             background-color: #3498db;
             border: none;
@@ -59,14 +66,16 @@
             font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
-            transition: background 0.3s;
-            flex-shrink: 0;
+            transition: background 0.3s; /* Smooth transition for hover effects */
+            flex-shrink: 0; /* Prevents button from shrinking in flex container */
         }
 
+        /* Button hover effect */
         button:hover {
             background-color: #2980b9;
         }
 
+        /* Specific button colors for delete, edit, and match actions */
         .btn.delete { background-color: #e74c3c; }
         .btn.delete:hover { background-color: #c0392b; }
         .btn.edit { background-color: #f39c12; }
@@ -74,67 +83,79 @@
         .btn.match { background-color: #2ecc71; }
         .btn.match:hover { background-color: #27ae60; }
 
+        /* Section header styling */
         .section-header {
             font-size: 20px;
             margin-bottom: 10px;
             color: #333;
         }
 
+        /* Utility class to hide elements */
         .hidden {
             display: none;
         }
 
+        /* Spacing for action buttons within a row */
         .actions button {
             margin: 0 4px;
         }
 
-        /* Responsive Table Wrapper */
+        /* Responsive table wrapper for horizontal scrolling on small screens */
         .table-responsive {
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS devices */
         }
 
+        /* General table styling */
         table {
             width: 100%;
-            border-collapse: collapse;
-            min-width: 1100px;
+            border-collapse: collapse; /* Collapse borders between cells */
+            min-width: 1100px; /* Ensure table doesn't get too narrow, enabling horizontal scroll if needed */
         }
+        /* Override min-width for smaller tables like top players */
         .top-players-table {
             min-width: unset;
         }
 
+        /* Table header and data cell styling */
         th, td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: center;
-            white-space: nowrap;
+            white-space: nowrap; /* Prevent text wrapping in cells */
         }
 
+        /* Table header specific styling */
         th {
             background-color: #34495e;
             color: white;
         }
 
-        /* Media Queries for Mobile */
+        /* Media Queries for Mobile Responsiveness */
         @media (max-width: 768px) {
+            /* Stack form elements vertically */
             .form-group {
                 flex-direction: column;
                 align-items: stretch;
             }
 
+            /* Make inputs and buttons take full width on mobile */
             button, input[type="text"], input[type="file"], input[type="password"], select {
                 width: 100%;
                 min-width: unset;
             }
 
+            /* Adjust card padding */
             .card {
                 padding: 15px;
             }
 
+            /* Adjust font size for section headers */
             .section-header {
                 font-size: 18px;
             }
 
+            /* Reduce table font size on mobile */
             table {
                 font-size: 12px;
             }
@@ -142,24 +163,26 @@
                 font-size: 12px;
             }
 
+            /* Reduce cell padding on mobile */
             th, td {
                 padding: 8px;
             }
         }
 
-        /* Highlight styles */
+        /* Highlight styles for top players */
         .batting-top {
-            background-color: #fc6805 !important;
+            background-color: #fc6805 !important; /* Orange */
             font-weight: bold;
             color: white;
         }
 
         .bowling-top {
-            background-color: #8409f7 !important;
+            background-color: #8409f7 !important; /* Purple */
             font-weight: bold;
             color: white;
         }
 
+        /* Gradient for players who are top in both batting and bowling */
         .double-top {
             background: linear-gradient(90deg, #fc6805 50%, #8409f7 50%);
             font-weight: bold;
@@ -169,8 +192,9 @@
 </head>
 <body>
     <div class="container">
-        <h2>Players Stats</h2>
+        <h2>Cryo Bullz (Local Storage)</h2>
 
+        <!-- Admin Login/Logout Section -->
         <div class="card">
             <div class="form-group" id="admin-login-controls">
                 <input type="password" id="admin-password" placeholder="Admin Password" />
@@ -181,6 +205,7 @@
                 <button onclick="adminLogout()">Logout Admin</button>
             </div>
 
+            <!-- Admin Player Management Controls (hidden by default) -->
             <div id="admin-player-controls" class="hidden">
                 <div class="form-group">
                     <input type="text" id="name" placeholder="Enter Player Name" />
@@ -204,6 +229,7 @@
             </div>
         </div>
 
+        <!-- Player Stats Table Section -->
         <div class="card">
             <div class="section-header">Player Stats</div>
             <div class="table-responsive">
@@ -234,6 +260,7 @@
             </div>
         </div>
 
+        <!-- Match Section (hidden by default, shown when a player's matches are viewed) -->
         <div class="card hidden" id="match-section">
             <div class="section-header">Matches for <span id="match-player-name"></span></div>
             <div class="table-responsive">
@@ -244,6 +271,7 @@
                     <tbody id="match-list"></tbody>
                 </table>
             </div>
+            <!-- Admin Match Controls (hidden by default, only shown if admin and matches open) -->
             <div style="margin-top: 10px;" id="admin-match-controls" class="hidden">
                 <button onclick="addMatch()">+ Add Match</button>
             </div>
@@ -252,6 +280,7 @@
             </div>
         </div>
 
+        <!-- Top 3 Batters Table Section -->
         <div class="card">
             <div class="section-header">Top 3 Batters (by Runs)</div>
             <div class="table-responsive">
@@ -272,6 +301,7 @@
             </div>
         </div>
 
+        <!-- Top 3 Bowlers Table Section -->
         <div class="card">
             <div class="section-header">Top 3 Bowlers (by Wickets)</div>
             <div class="table-responsive">
@@ -295,81 +325,155 @@
     </div>
 
     <script>
-        let players = []; // Initialize as empty, will be populated from API
-        let currentPlayerId = null; // Store the ID of the currently viewed player, not index
-        let isAdmin = false; // Flag to track admin status
-        const ADMIN_PASSWORD = "admin"; // Hardcoded admin password (NOT secure)
-        // Set API_BASE_URL to window.location.origin to use the current host (works well when served by Flask)
-        const API_BASE_URL = "https://cryobullzbackend.render.com"; // <--- THIS LINE IS THE KEY
-        // Elements that should be hidden/shown based on admin status
+        let players = []; // Stores the fetched player data, including nested matches
+        let currentPlayerId = null; // Stores the ID of the player whose matches are currently being viewed
+        let isAdmin = false; // Flag to track admin login status
+        const ADMIN_PASSWORD = "admin"; // WARNING: This is a hardcoded password and is NOT secure for production.
+                                        // For a real application, implement proper user authentication.
+
+        // Local Storage Keys
+        const LOCAL_STORAGE_PLAYERS_KEY = 'cryoBullzPlayers';
+        const LOCAL_STORAGE_NEXT_PLAYER_ID_KEY = 'cryoBullzNextPlayerId';
+        const LOCAL_STORAGE_NEXT_MATCH_ID_KEY = 'cryoBullzNextMatchId';
+
+        let nextPlayerId = 1; // Tracks the next available player ID for new entries
+        let nextMatchId = 1;   // Tracks the next available match ID for new entries
+
+        // DOM elements that need their visibility controlled based on admin status
         const adminLoginControls = document.getElementById('admin-login-controls');
         const adminLogoutControls = document.getElementById('admin-logout-controls');
         const adminPlayerControls = document.getElementById('admin-player-controls');
         const adminMatchControls = document.getElementById('admin-match-controls');
         const matchSection = document.getElementById('match-section');
 
-        // --- Admin Functions (Remain mostly client-side for this example) ---
-        function updateAdminVisibility() {
-            if (isAdmin) {
-                adminLoginControls.classList.add('hidden');
-                adminLogoutControls.classList.remove('hidden');
-                adminPlayerControls.classList.remove('hidden');
-                // Admin match controls are only visible when a player's matches are open
-                if (currentPlayerId !== null) {
-                    adminMatchControls.classList.remove('hidden');
+        // --- Local Storage Functions ---
+
+        /**
+         * Loads data from localStorage into the 'players' array and ID counters.
+         * This runs on application startup.
+         */
+        function loadFromLocalStorage() {
+            try {
+                const storedPlayers = localStorage.getItem(LOCAL_STORAGE_PLAYERS_KEY);
+                if (storedPlayers) {
+                    players = JSON.parse(storedPlayers);
+                } else {
+                    players = [];
                 }
-                document.querySelectorAll('.admin-actions-col').forEach(el => el.classList.remove('hidden'));
-            } else {
-                adminLoginControls.classList.remove('hidden');
-                adminLogoutControls.classList.add('hidden');
-                adminPlayerControls.classList.add('hidden');
-                adminMatchControls.classList.add('hidden'); // Ensure hidden when logged out
-                document.getElementById('admin-password').value = ''; // Clear password field
-                document.querySelectorAll('.admin-actions-col').forEach(el => el.classList.add('hidden'));
-            }
-            // Re-render tables to update button visibility.
-            renderPlayers();
-            // If a match section is open, re-render its buttons too.
-            if (currentPlayerId !== null) {
-                // Fetch player data again to ensure 'matches' array is up-to-date locally for renderMatches
-                fetch(`${API_BASE_URL}/players/${currentPlayerId}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('Failed to fetch player for match re-render');
-                        return response.json();
-                    })
-                    .then(playerData => {
-                        renderMatches(playerData.matches);
-                    })
-                    .catch(error => console.error("Error re-rendering matches after admin visibility update:", error));
+
+                const storedNextPlayerId = localStorage.getItem(LOCAL_STORAGE_NEXT_PLAYER_ID_KEY);
+                if (storedNextPlayerId) {
+                    nextPlayerId = parseInt(storedNextPlayerId);
+                } else {
+                    nextPlayerId = 1;
+                }
+
+                const storedNextMatchId = localStorage.getItem(LOCAL_STORAGE_NEXT_MATCH_ID_KEY);
+                if (storedNextMatchId) {
+                    nextMatchId = parseInt(storedNextNextMatchId);
+                } else {
+                    nextMatchId = 1;
+                }
+            } catch (e) {
+                console.error("Error loading from local storage:", e);
+                // Fallback to empty state if loading fails
+                players = [];
+                nextPlayerId = 1;
+                nextMatchId = 1;
             }
         }
 
+        /**
+         * Saves the current 'players' array and ID counters to localStorage.
+         * This function should be called after any modification to the data.
+         */
+        function saveToLocalStorage() {
+            try {
+                localStorage.setItem(LOCAL_STORAGE_PLAYERS_KEY, JSON.stringify(players));
+                localStorage.setItem(LOCAL_STORAGE_NEXT_PLAYER_ID_KEY, nextPlayerId.toString());
+                localStorage.setItem(LOCAL_STORAGE_NEXT_MATCH_ID_KEY, nextMatchId.toString());
+            } catch (e) {
+                console.error("Error saving to local storage:", e);
+                alert("Failed to save data to your browser's local storage. Your changes might not persist.");
+            }
+        }
+
+        // --- Admin Control Functions ---
+
+        /**
+         * Updates the visibility of admin-specific UI elements based on the isAdmin flag.
+         */
+        function updateAdminVisibility() {
+            if (isAdmin) {
+                adminLoginControls.classList.add('hidden');    // Hide login form
+                adminLogoutControls.classList.remove('hidden'); // Show logout button
+                adminPlayerControls.classList.remove('hidden'); // Show player add/export controls
+                
+                // Admin match controls are only visible if admin AND a player's matches are open
+                if (currentPlayerId !== null) {
+                    adminMatchControls.classList.remove('hidden');
+                } else {
+                    adminMatchControls.classList.add('hidden'); // Ensure hidden if no player selected
+                }
+                // Show action columns (Delete, Edit buttons in tables)
+                document.querySelectorAll('.admin-actions-col').forEach(el => el.classList.remove('hidden'));
+            } else {
+                adminLoginControls.classList.remove('hidden');  // Show login form
+                adminLogoutControls.classList.add('hidden');   // Hide logout button
+                adminPlayerControls.classList.add('hidden');   // Hide player add/export controls
+                adminMatchControls.classList.add('hidden');    // Hide match add controls
+                document.getElementById('admin-password').value = ''; // Clear password input
+                // Hide action columns
+                document.querySelectorAll('.admin-actions-col').forEach(el => el.classList.add('hidden'));
+            }
+            // Re-render players table to apply updated visibility to action buttons
+            renderPlayers();
+            // If a match section is open, re-render its buttons too.
+            if (currentPlayerId !== null) {
+                const player = players.find(p => p.id === currentPlayerId);
+                if (player) {
+                    renderMatches(player.matches); // Render matches with updated admin visibility.
+                }
+            }
+        }
+
+        /**
+         * Attempts to log in as admin.
+         */
         function adminLogin() {
             const passwordInput = document.getElementById('admin-password');
             if (passwordInput.value === ADMIN_PASSWORD) {
                 isAdmin = true;
-                updateAdminVisibility();
+                updateAdminVisibility(); // Update UI
                 alert("Logged in as Admin!");
             } else {
                 alert("Incorrect password!");
-                passwordInput.value = '';
+                passwordInput.value = ''; // Clear password on failure
             }
         }
 
+        /**
+         * Logs out from admin mode.
+         */
         function adminLogout() {
             isAdmin = false;
-            updateAdminVisibility();
+            updateAdminVisibility(); // Update UI
             alert("Logged out of Admin mode.");
         }
 
-        // --- API Interaction Functions ---
+        // --- Data Calculation Function (Client-Side) ---
 
-        // Calculates and returns aggregated statistics for a player's matches (remains client-side)
+        /**
+         * Calculates and returns aggregated statistics for a given array of match objects.
+         * This function processes raw match data to derive batting average, bowling average, etc.
+         * @param {Array<Object>} matches - An array of match objects for a single player.
+         * @returns {Object} An object containing aggregated statistics.
+         */
         function calculateStats(matches) {
             let innings = 0;
             let runs = 0;
             let wickets = 0;
-            let overs = 0; // Represents total overs, e.g., 5.3 overs
+            let overs = 0; // Total overs bowled (e.g., 5.3 overs)
             let conceded = 0;
             let totalBallsFaced = 0;
             let totalCatches = 0;
@@ -379,17 +483,18 @@
             matches.forEach(m => {
                 if (m.did_bat) {
                     innings++;
-                    totalBallsFaced += (m.balls || 0);
+                    totalBallsFaced += (m.balls || 0); // Use 0 if balls is null/undefined
                 }
-                runs += m.runs;
-                wickets += m.wickets;
-                overs += m.overs;
-                conceded += m.conceded;
+                runs += m.runs || 0;
+                wickets += m.wickets || 0;
+                overs += m.overs || 0;
+                conceded += m.conceded || 0;
                 totalCatches += (m.catches || 0);
                 totalStumpings += (m.stumpings || 0);
                 totalRunOuts += (m.run_outs || 0);
             });
 
+            // Calculate averages and strike rates, handling division by zero
             const avg = innings ? (runs / innings).toFixed(2) : '-';
             const sr = totalBallsFaced ? ((runs / totalBallsFaced) * 100).toFixed(2) : '-';
             const eco = overs ? (conceded / overs).toFixed(2) : '-';
@@ -400,51 +505,52 @@
                 innings,
                 runs,
                 wickets,
-                avg,
-                sr,
-                eco,
-                bowlAvg,
+                avg, // Batting Average
+                sr,  // Batting Strike Rate
+                eco, // Bowling Economy
+                bowlAvg, // Bowling Average
                 totalCatches,
                 totalStumpings,
                 totalRunOuts
             };
         }
 
-        // Renders the list of players and their aggregated stats in the main table
-        async function renderPlayers() {
+        // --- Data Management & Rendering Functions (Local Storage) ---
+
+        /**
+         * Renders the list of players and their aggregated stats in the main table.
+         * Data is loaded from the 'players' array (which is synced with localStorage).
+         */
+        function renderPlayers() {
             const tbody = document.getElementById('player-list');
-            tbody.innerHTML = ''; // Clear existing rows
-            players = []; // Clear local players array before fetching
+            tbody.innerHTML = ''; // Clear existing table rows
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/players`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            let topBatIndex = -1;
+            let topBowlIndex = -1;
+            let maxRuns = -1;
+            let maxWickets = -1;
+
+            // Loop through players to determine who is the top batter and top bowler
+            players.forEach((player, i) => {
+                const stats = calculateStats(player.matches);
+
+                // Check for top batter (based on runs, only if they have batted)
+                if (stats.runs > maxRuns && stats.innings > 0) {
+                    maxRuns = stats.runs;
+                    topBatIndex = i;
                 }
-                const data = await response.json();
-                players = data; // Update global players array with fetched data
 
-                let topBatIndex = -1;
-                let topBowlIndex = -1;
-                let maxRuns = -1;
-                let maxWickets = -1;
+                // Check for top bowler (based on wickets, only if they have bowled)
+                if (stats.wickets > maxWickets && stats.wickets > 0) {
+                    maxWickets = stats.wickets;
+                    topBowlIndex = i;
+                }
+            });
 
-                // Determine top batter and bowler for highlighting
-                players.forEach((player, i) => {
-                    const stats = calculateStats(player.matches);
-
-                    if (stats.runs > maxRuns && stats.innings > 0) {
-                        maxRuns = stats.runs;
-                        topBatIndex = i;
-                    }
-
-                    if (stats.wickets > maxWickets && stats.wickets > 0) {
-                        maxWickets = stats.wickets;
-                        topBowlIndex = i;
-                    }
-                });
-
-                // Populate the player table
+            // Populate the main player table
+            if (players.length === 0) {
+                 tbody.innerHTML = '<tr><td colspan="16">No players added yet. Add a player above!</td></tr>';
+            } else {
                 players.forEach((player, index) => {
                     const stats = calculateStats(player.matches);
 
@@ -452,6 +558,7 @@
                     const isTopBatter = (index === topBatIndex && stats.runs > 0);
                     const isTopBowler = (index === topBowlIndex && stats.wickets > 0);
 
+                    // Determine highlight class for the row
                     if (isTopBatter && isTopBowler) {
                         rowClass = 'double-top';
                     } else if (isTopBatter) {
@@ -460,12 +567,14 @@
                         rowClass = 'bowling-top';
                     }
 
-                    // Note: passing player.id to viewMatches and deletePlayer
+                    // HTML for action buttons (Matches and Delete)
+                    // Delete button is conditionally visible based on isAdmin
                     const actionButtons = `
                         <button class="btn match" onclick="viewMatches(${player.id})">Matches</button>
                         <button class="btn delete ${isAdmin ? '' : 'hidden'}" onclick="deletePlayer(${player.id})">Delete</button>
-                    `; // Delete button visibility depends on isAdmin
+                    `;
 
+                    // Construct the table row HTML
                     const row = `
                         <tr class="${rowClass}">
                             <td>${index + 1}</td>
@@ -488,24 +597,24 @@
                                 ${actionButtons}
                             </td>
                         </tr>`;
-                    tbody.insertAdjacentHTML('beforeend', row);
+                    tbody.insertAdjacentHTML('beforeend', row); // Add row to table body
                 });
-
-                renderTopBatters();
-                renderTopBowlers();
-            } catch (error) {
-                console.error('Error fetching players:', error);
-                alert('Failed to load players. Make sure your backend server is running.');
-                tbody.innerHTML = '<tr><td colspan="16" style="color: red;">Failed to load players. Please ensure the backend is running.</td></tr>';
             }
+
+            // After rendering players, render the top batters and bowlers sections
+            renderTopBatters();
+            renderTopBowlers();
         }
 
-        // Adds a new player to the players array via API
-        async function addPlayer() {
+        /**
+         * Adds a new player to the 'players' array and saves to localStorage.
+         */
+        function addPlayer() {
             if (!isAdmin) {
                 alert("You must be logged in as Admin to add players.");
                 return;
             }
+            // Get values from input fields
             const nameInput = document.getElementById('name');
             const roleInput = document.getElementById('role');
             const battingStyleInput = document.getElementById('battingStyle');
@@ -521,86 +630,79 @@
                 return;
             }
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/players`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, role, batting_style, bowling_style })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || response.statusText}`);
-                }
-
-                const newPlayer = await response.json();
-                console.log('Player added:', newPlayer);
-                renderPlayers(); // Re-render to show the new player
-                // Clear input fields
-                nameInput.value = '';
-                roleInput.value = '';
-                battingStyleInput.value = '';
-                bowlingStyleInput.value = '';
-            } catch (error) {
-                console.error('Error adding player:', error);
-                alert('Failed to add player: ' + error.message);
+            // Check for existing player name to prevent duplicates (case-insensitive)
+            if (players.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+                alert("Player with this name already exists!");
+                return;
             }
+
+            const newPlayer = {
+                id: nextPlayerId++, // Assign current ID and then increment
+                name: name,
+                role: role,
+                batting_style: batting_style,
+                bowling_style: bowling_style,
+                matches: [] // New players start with no matches
+            };
+
+            players.push(newPlayer); // Add new player to local array
+            saveToLocalStorage();     // Save updated array to localStorage
+            renderPlayers();          // Re-render the player list to show the new player
+
+            // Clear input fields after successful addition
+            nameInput.value = '';
+            roleInput.value = '';
+            battingStyleInput.value = '';
+            bowlingStyleInput.value = '';
+            alert("Player added successfully!");
         }
 
-        // Deletes a player from the database via API
-        async function deletePlayer(playerId) {
+        /**
+         * Deletes a player and all their associated match data from the 'players' array and localStorage.
+         * @param {number} playerId - The ID of the player to delete.
+         */
+        function deletePlayer(playerId) {
             if (!isAdmin) {
                 alert("You must be logged in as Admin to delete players.");
                 return;
             }
+            // Confirm deletion with the user
             if (confirm("Are you sure you want to delete this player? This will also delete all their match data.")) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/players/${playerId}`, {
-                        method: 'DELETE'
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
-                    }
-
-                    console.log('Player deleted:', playerId);
-                    renderPlayers(); // Re-render to update the list
-                    closeMatchSection(); // Close match section if the deleted player's matches were open
-                } catch (error) {
-                    console.error('Error deleting player:', error);
-                    alert('Failed to delete player: ' + error.message);
-                }
+                // Filter out the player to be deleted
+                players = players.filter(p => p.id !== playerId);
+                saveToLocalStorage(); // Save updated array to localStorage
+                renderPlayers();      // Re-render the player list
+                closeMatchSection();  // Close match section if the deleted player's matches were open
+                alert("Player deleted successfully!");
             }
         }
 
-        // Displays the match history for a selected player (fetching from API)
-        async function viewMatches(playerId) {
-            currentPlayerId = playerId;
-            try {
-                const response = await fetch(`${API_BASE_URL}/players/${playerId}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const player = await response.json();
-                document.getElementById('match-player-name').innerText = player.name;
-                matchSection.classList.remove('hidden');
-                renderMatches(player.matches);
-                updateAdminVisibility();
-            } catch (error) {
-                console.error('Error fetching player matches:', error);
-                alert('Failed to load player matches. Make sure your backend server is running.');
+        /**
+         * Displays the match history for a selected player.
+         * @param {number} playerId - The ID of the player whose matches to view.
+         */
+        function viewMatches(playerId) {
+            currentPlayerId = playerId; // Set the currently viewed player ID
+            const player = players.find(p => p.id === playerId);
+            if (player) {
+                document.getElementById('match-player-name').innerText = player.name; // Update section title
+                matchSection.classList.remove('hidden'); // Show the match section
+                renderMatches(player.matches); // Render the matches for this player
+                updateAdminVisibility(); // Update admin controls visibility (e.g., add match button)
+            } else {
+                alert("Player not found!");
                 closeMatchSection();
             }
         }
 
-        // Renders the list of matches for the currently selected player
+        /**
+         * Renders the list of matches for the currently selected player in the match section table.
+         * @param {Array<Object>} matchesData - An array of match objects to render.
+         */
         function renderMatches(matchesData) {
             const matchList = document.getElementById('match-list');
-            matchList.innerHTML = '';
-            const matches = matchesData || [];
+            matchList.innerHTML = ''; // Clear existing rows
+            const matches = matchesData || []; // Ensure matches is an array
 
             if (matches.length === 0) {
                 matchList.innerHTML = '<tr><td colspan="6">No matches recorded for this player.</td></tr>';
@@ -608,11 +710,14 @@
             }
 
             matches.forEach((m, i) => {
+                // Action buttons for each match (Edit, Delete)
+                // These are only visible if isAdmin is true
                 const actionButtons = isAdmin ? `
                     <button class="btn edit" onclick="editMatch(${m.id})">Edit</button>
                     <button class="btn delete" onclick="deleteMatch(${m.id})">Delete</button>
                 ` : '';
 
+                // Construct the match table row HTML
                 const row = `
                     <tr>
                         <td>${i + 1}</td>
@@ -624,12 +729,14 @@
                             ${actionButtons}
                         </td>
                     </tr>`;
-                matchList.insertAdjacentHTML('beforeend', row);
+                matchList.insertAdjacentHTML('beforeend', row); // Add row to table body
             });
         }
 
-        // Prompts for new match details and adds it to the current player via API
-        async function addMatch() {
+        /**
+         * Prompts the user for new match details and adds it to the current player's matches.
+         */
+        function addMatch() {
             if (!isAdmin) {
                 alert("You must be logged in as Admin to add matches.");
                 return;
@@ -645,6 +752,7 @@
                 return;
             }
 
+            // Prompt user for match details (using confirm/prompt - basic UI for this example)
             const did_bat = confirm("Did the player bat in this match?");
             const runs = did_bat ? parseInt(prompt("Runs scored:", "0")) || 0 : 0;
             const balls = did_bat ? parseInt(prompt("Balls faced:", "0")) || 0 : 0;
@@ -656,17 +764,19 @@
             let stumpings = 0;
             let run_outs = 0;
 
+            // Prompt for specific fielding stats based on player role
             if (player.role === "Wicketkeeper") {
                 catches = parseInt(prompt("Catches taken (Wicketkeeper):", "0")) || 0;
                 stumpings = parseInt(prompt("Stumpings effected (Wicketkeeper):", "0")) || 0;
                 run_outs = parseInt(prompt("Run Outs effected (Wicketkeeper, Direct Hits/Assists):", "0")) || 0;
             } else {
                 catches = parseInt(prompt("Catches taken (Fielder):", "0")) || 0;
-                stumpings = 0;
-                run_outs = 0;
+                stumpings = 0; // Fielders don't effect stumpings
+                run_outs = 0; // Fielders typically don't directly effect run outs in the same way as WK
             }
 
-            const matchData = {
+            const newMatch = {
+                id: nextMatchId++, // Assign current ID and then increment
                 player_id: currentPlayerId,
                 did_bat,
                 runs,
@@ -679,32 +789,18 @@
                 run_outs
             };
 
-            try {
-                const response = await fetch(`${API_BASE_URL}/players/${currentPlayerId}/matches`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(matchData)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.error || response.statusText}`);
-                }
-
-                const newMatch = await response.json();
-                console.log('Match added:', newMatch);
-                await viewMatches(currentPlayerId);
-                renderPlayers();
-            } catch (error) {
-                console.error('Error adding match:', error);
-                alert('Failed to add match: ' + error.message);
-            }
+            player.matches.push(newMatch); // Add new match to player's matches array
+            saveToLocalStorage();           // Save updated players array to localStorage
+            renderMatches(player.matches);  // Re-render matches for the current player
+            renderPlayers();                // Re-render main players table to update aggregated stats
+            alert("Match added successfully!");
         }
 
-        // Prompts to edit an existing match's details via API
-        async function editMatch(matchId) {
+        /**
+         * Prompts to edit an existing match's details.
+         * @param {number} matchId - The ID of the match to edit.
+         */
+        function editMatch(matchId) {
             if (!isAdmin) {
                 alert("You must be logged in as Admin to edit matches.");
                 return;
@@ -726,7 +822,8 @@
                 return;
             }
 
-            const did_bat = confirm("Did the player bat in this match?");
+            // Prompt user for updated match details, pre-filling with current values
+            const did_bat = confirm(`Did the player bat in this match? (Currently: ${currentMatch.did_bat})`);
             const runs = did_bat ? parseInt(prompt("Runs scored:", currentMatch.runs)) || 0 : 0;
             const balls = did_bat ? parseInt(prompt("Balls faced:", currentMatch.balls || 0)) || 0 : 0;
             const wickets = parseInt(prompt("Wickets taken:", currentMatch.wickets)) || 0;
@@ -746,45 +843,29 @@
                 stumpings = 0;
                 run_outs = 0;
             }
+            
+            // Update the current match object directly
+            currentMatch.did_bat = did_bat;
+            currentMatch.runs = runs;
+            currentMatch.balls = balls;
+            currentMatch.wickets = wickets;
+            currentMatch.overs = overs;
+            currentMatch.conceded = conceded;
+            currentMatch.catches = catches;
+            currentMatch.stumpings = stumpings;
+            currentMatch.run_outs = run_outs;
 
-            const updatedMatchData = {
-                did_bat,
-                runs,
-                balls,
-                wickets,
-                overs,
-                conceded,
-                catches,
-                stumpings,
-                run_outs
-            };
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/matches/${matchId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(updatedMatchData)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
-                }
-
-                const updatedMatch = await response.json();
-                console.log('Match updated:', updatedMatch);
-                await viewMatches(currentPlayerId);
-                renderPlayers();
-            } catch (error) {
-                console.error('Error updating match:', error);
-                alert('Failed to update match: ' + error.message);
-            }
+            saveToLocalStorage();           // Save updated players array to localStorage
+            renderMatches(player.matches);  // Re-render matches for the current player
+            renderPlayers();                // Re-render main players table to update aggregated stats
+            alert("Match updated successfully!");
         }
 
-        // Deletes a specific match from the database via API
-        async function deleteMatch(matchId) {
+        /**
+         * Deletes a specific match from a player's matches array and updates localStorage.
+         * @param {number} matchId - The ID of the match to delete.
+         */
+        function deleteMatch(matchId) {
             if (!isAdmin) {
                 alert("You must be logged in as Admin to delete matches.");
                 return;
@@ -794,48 +875,56 @@
                 return;
             }
 
+            const player = players.find(p => p.id === currentPlayerId);
+            if (!player) {
+                alert("Selected player not found.");
+                return;
+            }
+
             if (confirm("Delete this match?")) {
-                try {
-                    const response = await fetch(`${API_BASE_URL}/matches/${matchId}`, {
-                        method: 'DELETE'
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message || response.statusText}`);
-                    }
-
-                    console.log('Match deleted:', matchId);
-                    await viewMatches(currentPlayerId);
-                    renderPlayers();
-                } catch (error) {
-                    console.error('Error deleting match:', error);
-                    alert('Failed to delete match: ' + error.message);
-                }
+                // Filter out the match to be deleted from the player's matches array
+                player.matches = player.matches.filter(m => m.id !== matchId);
+                saveToLocalStorage();           // Save updated players array to localStorage
+                renderMatches(player.matches);  // Re-render matches for the current player
+                renderPlayers();                // Re-render main players table to update aggregated stats
+                alert("Match deleted successfully!");
             }
         }
 
-        // Closes the match history section
+        /**
+         * Closes the match history section and resets the currentPlayerId.
+         */
         function closeMatchSection() {
             currentPlayerId = null;
-            matchSection.classList.add('hidden');
-            adminMatchControls.classList.add('hidden');
+            matchSection.classList.add('hidden'); // Hide the match section
+            adminMatchControls.classList.add('hidden'); // Hide match-specific admin controls
         }
 
-        // Exports player data to a JSON file (client-side, current view)
+        // --- Data Export/Import Functions (Client-Side) ---
+
+        /**
+         * Exports the current player data (from the client-side 'players' array) to a JSON file.
+         */
         function exportToJSON() {
-            const dataStr = JSON.stringify(players, null, 2);
+            const dataStr = JSON.stringify(players, null, 2); // Pretty-print JSON
             const blob = new Blob([dataStr], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "cricket_players.json";
-            a.click();
+            a.download = "cryo_bullz_players.json"; // Suggested file name
+            a.click(); // Programmatically click the link to trigger download
+            URL.revokeObjectURL(url); // Clean up the URL object
         }
 
-        // Exports player data to a CSV file (client-side, current view)
+        /**
+         * Exports the current player data to a CSV file.
+         * Includes aggregated stats.
+         */
         function exportToCSV() {
+            // Define CSV headers
             const headers = ["Name", "Role", "Batting Style", "Bowling Style", "Matches", "Innings", "Runs", "Wickets", "Catches", "Stumpings", "Run Outs", "Bat Avg", "Economy", "Strike Rate", "Bowling Avg"];
+            
+            // Map player data to CSV rows, calculating stats for each
             const rows = players.map(p => {
                 const stats = calculateStats(p.matches);
                 return [
@@ -856,58 +945,87 @@
                     stats.bowlAvg
                 ];
             });
-            const csv = [headers.join(","), ...rows.map(r => r.map(field => `"${String(field).replace(/"/g, '""')}"`).join(","))].join("\n");
+
+            // Format rows into CSV string, handling commas and quotes in data fields
+            const csv = [
+                headers.join(","), // Join headers with commas
+                ...rows.map(r => r.map(field => `"${String(field).replace(/"/g, '""')}"`).join(",")) // Quote fields and escape existing quotes
+            ].join("\n"); // Join rows with newlines
+
             const blob = new Blob([csv], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = "cricket_players.csv";
+            a.download = "cryo_bullz_players.csv";
             a.click();
+            URL.revokeObjectURL(url);
         }
 
-        // Imports player data from a JSON file (client-side, overwrites current local 'players' array)
-        // Note: This does NOT save to the backend database. For that, you'd need a backend endpoint
-        // that can process a JSON file to insert/update records.
+        /**
+         * Imports player data from a selected JSON file into the client-side 'players' array.
+         * This overwrites existing data in localStorage.
+         * @param {Event} event - The change event from the file input.
+         */
         function importFromJSON(event) {
             const file = event.target.files[0];
             if (!file) return;
+
             const reader = new FileReader();
-            reader.onload = async function (e) {
+            reader.onload = function (e) {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    if (Array.isArray(data)) {
-                        players = data;
-                        renderPlayers();
-                        alert("Import successful! (Data is only loaded client-side)");
+                    const importedData = JSON.parse(e.target.result);
+                    if (Array.isArray(importedData)) {
+                        players = importedData; // Overwrite current client-side data
+                        
+                        // Recalculate next IDs based on imported data to avoid conflicts
+                        nextPlayerId = 1;
+                        nextMatchId = 1;
+                        players.forEach(p => {
+                            if (p.id >= nextPlayerId) nextPlayerId = p.id + 1;
+                            p.matches.forEach(m => {
+                                if (m.id >= nextMatchId) nextMatchId = m.id + 1;
+                            });
+                        });
+
+                        saveToLocalStorage(); // Save the newly imported data
+                        renderPlayers();      // Re-render the UI with imported data
+                        alert("Import successful! Data has been loaded and saved to your browser's local storage.");
                     } else {
-                        alert("Invalid file format. Please select a valid JSON array.");
+                        alert("Invalid file format. Please select a JSON file containing an array of player objects.");
                     }
                 } catch (error) {
                     alert("Error parsing JSON file: " + error.message);
+                    console.error("Error importing JSON:", error);
                 }
             };
-            reader.readAsText(file);
+            reader.readAsText(file); // Read the file as text
         }
 
-        // Renders the top 3 batters table (client-side, uses 'players' array from API)
+        // --- Top Players Rendering Functions ---
+
+        /**
+         * Renders the top 3 batters table based on runs.
+         */
         function renderTopBatters() {
             const tbody = document.getElementById('top-batters-list');
-            tbody.innerHTML = '';
+            tbody.innerHTML = ''; // Clear existing rows
 
+            // Filter players who have batted, sort by runs, and take top 3
             const topBatters = players
                 .map(player => ({
                     player: player,
                     stats: calculateStats(player.matches)
                 }))
-                .filter(item => item.stats.innings > 0 && item.stats.runs > 0)
-                .sort((a, b) => b.stats.runs - a.stats.runs)
-                .slice(0, 3);
+                .filter(item => item.stats.innings > 0 && item.stats.runs > 0) // Only consider players who have batted and scored runs
+                .sort((a, b) => b.stats.runs - a.stats.runs) // Sort in descending order of runs
+                .slice(0, 3); // Take the top 3
 
             if (topBatters.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5">No data available</td></tr>';
                 return;
             }
 
+            // Populate the top batters table
             topBatters.forEach((item, index) => {
                 const row = `
                     <tr>
@@ -922,25 +1040,29 @@
             });
         }
 
-        // Renders the top 3 bowlers table (client-side, uses 'players' array from API)
+        /**
+         * Renders the top 3 bowlers table based on wickets.
+         */
         function renderTopBowlers() {
             const tbody = document.getElementById('top-bowlers-list');
-            tbody.innerHTML = '';
+            tbody.innerHTML = ''; // Clear existing rows
 
+            // Filter players who have taken wickets, sort by wickets, and take top 3
             const topBowlers = players
                 .map(player => ({
                     player: player,
                     stats: calculateStats(player.matches)
                 }))
-                .filter(item => item.stats.wickets > 0)
-                .sort((a, b) => b.stats.wickets - a.stats.wickets)
-                .slice(0, 3);
+                .filter(item => item.stats.wickets > 0) // Only consider players who have taken wickets
+                .sort((a, b) => b.stats.wickets - a.stats.wickets) // Sort in descending order of wickets
+                .slice(0, 3); // Take the top 3
 
             if (topBowlers.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5">No data available</td></tr>';
                 return;
             }
 
+            // Populate the top bowlers table
             topBowlers.forEach((item, index) => {
                 const row = `
                     <tr>
@@ -955,8 +1077,13 @@
             });
         }
 
-        // Initial render when the page loads
+        // --- Initial Application Load ---
+        // Load data from local storage when the page loads
+        loadFromLocalStorage();
+        // Render the UI with the loaded data
         renderPlayers();
+        // Set initial admin visibility
+        updateAdminVisibility();
     </script>
 </body>
 </html>
